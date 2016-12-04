@@ -14,6 +14,11 @@ pid_t saferFork()
 int 
 main() {
   pid_t forkVal = saferFork();
+  if(!forkVal){
+    printf("print from child\n");
+  }
+  else
   printf("forkVal=%d\n", forkVal);
+  
   return 0;
 }
