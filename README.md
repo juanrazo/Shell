@@ -17,7 +17,8 @@ different when adding chars. I then moved to implement pipes, this was done by c
 This was a work around and took me some time to understand how pipes work. I then got help from David Pruitt and suggested to
 use recurssion to look for pipes. Eric Camacho was also in the discussion and discussed most of the lab with Camacho. I was
 able to get up to the pipes requirements and failed 3 tests in the testShell.sh. The tests that I failed were redirect, 
-background, and change dir.
+background, and change dir. I did not have time to add comments or clean up my code for I was working on the lab till the last
+ minute. 
 
 
 
