@@ -1,9 +1,16 @@
-## Theory of Operating Systems
+## Juan Razo
 
-## Unix Shell
+## Shell Lab
 
-## Assignment
-
+For this lab I started with fixing my tokenizer lab. I began to test my tokenizer by tokenizing the envp with "=". The test 
+was tested in the envDemo.c. I then moved to look for PATH and tokenize by  ":" and was succesful in OS X 64 bit. However when 
+I moved the code into the Linux VM I started to get a free error. I realized that this was because the VM was 32 bit and the 
+allocation size was different and was only happening at a specific string value of 92. The problem was caused because I was 
+calling malloc with the exact size of the token and then adding the EOC '\0' to the size +1. Once the problem was fixed I was
+able to move into the shell lab succesfully. My next step was to get familliar with execve for this I read stakoverflow to get
+a good understanding. 
+http://stackoverflow.com/questions/7656549/understanding-requirements-for-execve-and-setting-environment-vars
+After being 
 In this lab, you will create a user shell in the C programming language that can understand:
 
 - simple commands (e.g. $ /bin/ls or $ ls )
