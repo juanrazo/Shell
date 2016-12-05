@@ -12,6 +12,7 @@ void checkCommand(char **vec);
 int checkForPipe(char **vector);
 void executeCommand(char **command);
 void doPipe(char **pipeVect);
+void doRedirect(char **redirectVect);
 
 char **pathList;
 char **pPathList;
@@ -56,8 +57,8 @@ void getLines(){
   
   
   //Print $ sign, get user input and check if the exit flag is on
-  while(exitLoop ==0 && printDollar() && fgets(buffer, 4096 , stdin) != NULL){
-    
+  while(exitLoop ==0 /*&& printDollar()*/ && fgets(buffer, 4096 , stdin) != NULL){
+    char **redirectVect;
     vector = mytoc(buffer, delimiter);
     pipeVector = mytoc(buffer, '|');
     //Check for exit
@@ -67,15 +68,23 @@ void getLines(){
 	//printTokens(vector);
 	pipeFlag = checkForPipe(vector);
 	// If pipeFlag is set then break the tokens
-	pid_t forkVal = fork();
-	if(!forkVal){
-	  doPipe(pipeVector);
+	if(pipeFlag){
+	  printf("Found >\n");
+	  redirectVect=mytoc(buffer, '>');
+	  doRedirect(redirectVect);
 	}
 	else{
-	  wait(NULL);
+	  pid_t forkVal = fork();
+	  if(!forkVal){
+	    doPipe(pipeVector);
+	  }
+	  else{
+	    wait(NULL);
+	  }
 	}
       }
       freeVector(vector);
+      freeVector(pipeVector);
     }
   }
 }
@@ -146,16 +155,34 @@ void doPipe(char **pipeVect){
 
 }
 
+void doRedirect(char **redirectVect){
+  char **pipeVector;
+  pipeFds = (int *) calloc(2, sizeof(int));
+  pipe(pipeFds);
+  pid_t forkVal = fork();
+  if(!forkVal){//this is the child
+    close(1);
+    dup(pipeFds[1]);
+    close(pipeFds[0]);
+    close(pipeFds[1]);
+    pipeVector = mytoc(redirectVect[0], '|');
+    doPipe(pipeVector);
+  }
+  else{//this is the parent that will write to txt
+  }
+}
+
 void executeCommand(char **command){
   char **pList;
   pList = pathList;
   int retVal;
-  
-  while(*pList != (char *)0){
-    char *path;
-    path=strcopy(*pList);
-    concat(path, *command);
-    retVal = execve(path, &command[0], penvp);
-    pList++;
-  }
+  retVal = execve(*command, &command[0], penvp);
+  if(retVal==-1)
+    while(*pList != (char *)0){
+      char *path;
+      path=strcopy(*pList);
+      concat(path, *command);
+      retVal = execve(path, &command[0], penvp);
+      pList++;
+    }
 }

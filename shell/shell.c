@@ -51,8 +51,8 @@ void getLines(){
   int exitLoop = 0;
   char buffer[4096];
 
-  printf("\n\n");
-  puts("Sarting Shell:");
+  //printf("\n\n");
+  //puts("Sarting Shell:");
   
   
   //Print $ sign, get user input and check if the exit flag is on
