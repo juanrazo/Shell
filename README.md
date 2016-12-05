@@ -10,7 +10,19 @@ calling malloc with the exact size of the token and then adding the EOC '\0' to 
 able to move into the shell lab succesfully. My next step was to get familliar with execve for this I read stakoverflow to get
 a good understanding. 
 http://stackoverflow.com/questions/7656549/understanding-requirements-for-execve-and-setting-environment-vars
-After being 
+After becoming familiar with execve I moved on to understanding fork() and began to implement simple ls. This was achived by
+creating a function that was trying to execute the input from the user. I had to implement a concatinate to myToc, this
+allowed me to add a '/' and the first parameter from the user. The concatinate added to myToc uses realloc for the size is 
+different when adding chars. I then moved to implement pipes, this was done by checking if the input from the user had a '|' .
+This was a work around and took me some time to understand how pipes work. I then got help from David Pruitt and suggested to
+use recurssion to look for pipes. Eric Camacho was also in the discussion and discussed most of the lab with Camacho. I was
+able to get up to the pipes requirements and failed 3 tests in the testShell.sh. The tests that I failed were redirect, 
+background, and change dir.
+
+
+
+
+
 In this lab, you will create a user shell in the C programming language that can understand:
 
 - simple commands (e.g. $ /bin/ls or $ ls )
